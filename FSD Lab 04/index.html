@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Product Configurator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="#product" class="logo">Interactive Product Configurator</a>
+
+        <button id="menuToggle" class="menu-toggle" type="button" aria-label="Toggle menu">☰</button>
+
+        <nav id="mainNav" class="main-nav">
+            <a href="#product">Product</a>
+            <a href="#cart">Cart <span id="cartCount" class="cart-count">0</span></a>
+            <a href="#video">Video Ad</a>
+            <a href="#premium">Premium</a>
+            <a href="#payment">Upgrade</a>
+        </nav>
+        <span id="statusBadge" class="status-badge free">Free User</span>
+    </header>
+
+    <main>
+
+        <section class="hero reveal">
+            <h1>Design Your Own Chronos Smart Watch</h1>
+            <p class="subtitle">
+                Pick a color, choose a variant, add your name, then drag the watch into your cart.
+                Upgrade to Premium for gold finishes, glow effects and advanced engraving.
+            </p>
+        </section>
+
+        <section id="product" class="section reveal">
+            <div class="grid-2">
+
+                <div class="panel">
+                    <h2>Product Preview</h2>
+
+                    <div class="product-card" id="productCard" draggable="true">
+
+                        <div class="preview" id="preview">
+                            <div class="glare" id="glare"></div>
+
+                            <div class="preview-inner" id="previewInner">
+
+                                <svg id="watchSvg" class="watch-svg style-sport font-classic" viewBox="0 0 240 300"
+                                    role="img" aria-label="Smart watch preview">
+
+                                    <rect class="strap" x="82" y="0" width="76" height="86" rx="16"
+                                        data-hint="Strap: change its color and style in the options"></rect>
+                                    <rect class="strap" x="82" y="214" width="76" height="86" rx="16"
+                                        data-hint="Strap: change its color and style in the options"></rect>
+
+                                    <rect class="bezel" x="46" y="60" width="148" height="180" rx="46"
+                                        data-hint="Diamond bezel (Premium style)"></rect>
+
+                                    <rect class="case" x="52" y="66" width="136" height="168" rx="40"
+                                        data-hint="Aluminium case"></rect>
+
+                                    <rect class="crown" id="crown" x="190" y="118" width="12" height="32" rx="5"
+                                        data-hint="Click the crown to change the display color"></rect>
+                                    <rect class="crown" x="190" y="162" width="8" height="18" rx="4"
+                                        data-hint="Side button"></rect>
+
+                                    <rect class="screen" id="screenFace" x="64" y="80" width="112" height="140" rx="30"
+                                        data-hint="Click the screen to see the heartbeat pulse"></rect>
+
+                                    <text class="time-text" id="timeText" x="120" y="135">10:09</text>
+                                    <text class="engrave" id="engraveText" x="120" y="166">Your Name</text>
+                                    <text class="heart" x="120" y="200">♥ 72</text>
+                                </svg>
+                            </div>
+
+                            <p class="hover-info" id="hoverInfo">Move your mouse over the watch</p>
+                        </div>
+
+                        <!-- Requirement 1: Product information -->
+                        <h3 id="productTitle">Chronos Smart Watch</h3>
+                        <p class="engraving-line">Engraving: <strong id="productName">None</strong></p>
+                        <p class="price" id="productPrice">$120</p>
+                        <p class="description" id="productDescription">
+                            A stylish and comfortable smart watch for everyday use. Tracks your steps, heart rate
+                            and sleep, with a bright always-on display and a 7-day battery.
+                        </p>
+                        <p class="drag-tip">⬇ Drag this card into the cart below</p>
+                    </div>
+                </div>
+
+                <!-- ---------- 2: Customization form ---------- -->
+                <div class="panel">
+                    <h2>Customize Product</h2>
+
+                    <form id="customForm" novalidate>
+
+                        <label for="colorSelect">Choose Color <span class="tag free-tag">FREE</span></label>
+                        <select id="colorSelect">
+                            <option value="Black">Black</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Red">Red</option>
+                            <option value="Green">Green</option>
+                        </select>
+
+                        <label for="variantSelect">Choose Variant <span class="tag free-tag">FREE</span></label>
+                        <select id="variantSelect">
+                            <option value="standard">Standard 40mm - $120</option>
+                            <option value="sport">Sport 44mm - $150</option>
+                            <option value="lite">Lite 38mm - $99</option>
+                        </select>
+
+                        <label for="styleSelect">Strap Style <span class="tag free-tag">FREE</span></label>
+                        <select id="styleSelect">
+                            <option value="sport">Sport Band</option>
+                            <option value="leather">Leather Stitch</option>
+                            <option value="metal">Metal Link</option>
+                        </select>
+
+                        <label for="nameInput">Custom Name / Engraving <span class="tag free-tag">FREE</span></label>
+                        <input type="text" id="nameInput" maxlength="20" placeholder="Enter your name" autocomplete="off">
+
+                        <div class="counter-row">
+                            <small id="nameCounter" class="counter">0 / 20 characters</small>
+                            <small id="nameError" class="error"></small>
+                        </div>
+                        <small id="fieldTip" class="muted">Tip: your engraving appears on the watch while you type.</small>
+
+                        <div class="button-row">
+                            <button type="submit" class="btn primary">Apply Customization</button>
+                            <button type="button" id="addToCartBtn" class="btn secondary">Add to Cart</button>
+                            <button type="reset" class="btn ghost">Reset</button>
+                        </div>
+                    </form>
+
+                    <p class="summary" id="configSummary"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="cart" class="section reveal">
+            <div class="panel">
+                <h2>Shopping Cart</h2>
+
+                <div class="cart-drop" id="cartDrop">
+                    <div class="cart-empty" id="cartEmpty">
+                        <span class="cart-icon">🛒</span>
+                        <p id="cartMessage">Your cart is empty. Drag the product card here.</p>
+                    </div>
+                    <ul class="cart-list" id="cartList"></ul>
+                </div>
+
+                <div class="cart-footer">
+                    <p>Total: <strong id="cartTotal">$0</strong></p>
+                    <button type="button" id="clearCartBtn" class="btn ghost">Clear Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="video" class="section reveal">
+            <div class="panel">
+                <h2>Video Advertisement</h2>
+
+                <div class="video-layout">
+
+                    <div class="video-frame">
+                        <video id="adVideo" controls preload="metadata" playsinline>
+                            <source src="animation.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+
+                    <div class="video-side">
+                        <h3>Meet the Chronos Smart Watch</h3>
+                        <p>Watch how Chronos tracks your day, and how easy it is to make it yours.</p>
+                        <p id="videoStatus" class="muted">Video is ready.</p>
+
+                        <h3>Animation Showcase</h3>
+                        <div class="lottie-box" id="showcaseAnimation"></div>
+                        <div class="button-row">
+                            <button type="button" id="animPlay" class="btn small">Play</button>
+                            <button type="button" id="animPause" class="btn small">Pause</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="premium" class="section reveal">
+            <div class="panel">
+
+                <div class="premium-header">
+                    <svg id="premiumBadge" class="premium-badge" viewBox="0 0 64 64" aria-hidden="true">
+                        <polygon points="32,4 40,24 62,26 45,40 50,61 32,50 14,61 19,40 2,26 24,24"></polygon>
+                    </svg>
+                    <div>
+                        <h2>Premium Customization</h2>
+                        <p id="premiumState" class="muted">🔒 Locked. Upgrade to unlock these features.</p>
+                    </div>
+                </div>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h3>Free features <span class="tag free-tag">FREE</span></h3>
+                        <ul>
+                            <li>4 basic colors</li>
+                            <li>3 product variants</li>
+                            <li>3 strap styles</li>
+                            <li>Engraving up to 20 characters</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h3>Premium features <span class="tag premium-tag">PREMIUM</span></h3>
+                        <ul>
+                            <li>4 premium colors</li>
+                            <li>Diamond bezel style</li>
+                            <li>Glow visual effect</li>
+                            <li>Advanced engraving (3 fonts, 40 characters)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="premiumControls" class="premium-controls locked">
+
+                    <div class="premium-group">
+                        <p class="group-title">Premium Colors <span class="tag premium-tag">PREMIUM</span>
+                            <span class="lock-icon">🔒</span></p>
+                        <div class="swatch-row">
+                            <button type="button" class="swatch" data-color="#d4af37" data-name="Gold" title="Gold" aria-label="Gold" style="background:#d4af37"></button>
+                            <button type="button" class="swatch" data-color="#b76e79" data-name="Rose Gold" title="Rose Gold" aria-label="Rose Gold" style="background:#b76e79"></button>
+                            <button type="button" class="swatch" data-color="#7b2cbf" data-name="Royal Purple" title="Royal Purple" aria-label="Royal Purple" style="background:#7b2cbf"></button>
+                            <button type="button" class="swatch" data-color="#4cc9f0" data-name="Ice Blue" title="Ice Blue" aria-label="Ice Blue" style="background:#4cc9f0"></button>
+                        </div>
+                    </div>
+
+                    <div class="premium-group">
+                        <p class="group-title">Special Style and Effects <span class="tag premium-tag">PREMIUM</span>
+                            <span class="lock-icon">🔒</span></p>
+                        <label class="switch-row"><input type="checkbox" id="diamondToggle"> Diamond bezel style</label>
+                        <label class="switch-row"><input type="checkbox" id="glowToggle"> Glow visual effect</label>
+                    </div>
+
+                    <div class="premium-group">
+                        <p class="group-title">Advanced Engraving <span class="tag premium-tag">PREMIUM</span>
+                            <span class="lock-icon">🔒</span></p>
+                        <label class="switch-row"><input type="checkbox" id="extendedToggle"> Extended engraving (40 characters)</label>
+                        <div class="font-row">
+                            <button type="button" class="font-btn active" data-font="classic">Classic</button>
+                            <button type="button" class="font-btn" data-font="elegant">Elegant</button>
+                            <button type="button" class="font-btn" data-font="digital">Digital</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="payment" class="section reveal">
+            <div class="grid-2">
+
+                <div class="panel plan-card">
+                    <h2>Chronos Premium</h2>
+                    <p class="plan-price">$9.99 <span>one-time payment</span></p>
+                    <ul class="feature-list">
+                        <li>✔ 4 premium colors</li>
+                        <li>✔ Diamond bezel style</li>
+                        <li>✔ Glow visual effect</li>
+                        <li>✔ Advanced engraving</li>
+                    </ul>
+                    <button type="button" id="upgradeBtn" class="btn primary">Upgrade Now</button>
+                </div>
+
+                <div class="panel">
+                    <h2>Payment Details</h2>
+                    <p class="warning">Demo only. Do not enter real card details. Nothing is saved or sent.</p>
+
+                    <form id="paymentForm" novalidate>
+                        <div class="form-group">
+                            <label for="cardName">Cardholder Name</label>
+                            <input type="text" id="cardName" placeholder="Enter Name" autocomplete="off">
+                            <small class="error"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="off">
+                            <small class="error"></small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="off">
+                                <small class="error"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="password" id="cvv" placeholder="123" maxlength="3" inputmode="numeric" autocomplete="off">
+                                <small class="error"></small>
+                            </div>
+                        </div>
+
+                        <div class="button-row">
+                            <button type="submit" id="payBtn" class="btn primary">Pay $9.99 and Activate Premium</button>
+                            <button type="reset" class="btn ghost">Reset</button>
+                        </div>
+                    </form>
+
+                    <p id="paymentMessage" class="payment-message"></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="message" class="toast hidden" role="status" aria-live="polite">
+        <span id="messageText"></span>
+        <button type="button" id="messageUpgrade" class="btn small hidden">Upgrade to Premium</button>
+        <button type="button" id="messageClose" class="toast-close" aria-label="Close message">×</button>
+    </div>
+
+    <div id="successModal" class="modal hidden">
+        <div class="modal-box">
+            <div class="lottie-box" id="successAnimation"></div>
+            <h3 id="modalTitle">Success</h3>
+            <p id="modalText"></p>
+            <button type="button" id="modalClose" class="btn primary">Continue</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

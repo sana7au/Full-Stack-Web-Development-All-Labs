@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Queue Visualizer</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Queue Visualizer</h1>
+
+        <p class="description">
+            Click a number to enqueue it into the queue.
+            Click the front value to dequeue it.
+        </p>
+
+        <button id="randomBtn">Generate Random Number</button>
+
+        <h2>Available Values</h2>
+
+        <div id="availableValues" class="values"></div>
+
+        <h2>Queue</h2>
+
+        <div class="queueArea">
+
+            <div class="labelF">FRONT</div>
+            <div class="labelR">REAR</div>
+
+            <div id="queue" class="queue"></div>
+
+        </div>
+
+        <p id="message">Queue is empty.</p>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

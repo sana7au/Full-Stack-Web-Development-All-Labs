@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interactive Product Configurator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Interactive Product Configurator</h1>
+
+    <div class="main-container">
+        <div class="product-section">
+
+            <h2>Product Preview</h2>
+
+            <div class="product-card" id="productCard">
+
+                <div class="product-image" id="productImage">
+                    <div class="product-name" id="productName">
+                        Product Image
+                    </div>
+                </div>
+
+                <h2>Smart Watch</h2>
+
+                <p class="price">$120</p>
+
+                <p>
+                    A stylish and comfortable smart watch for everyday use.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="options-section">
+
+            <h2>Customize Product</h2>
+
+            <form>
+
+                <label>Choose Color:</label>
+
+                <select id="colorSelect">
+                    <option>Black</option>
+                    <option>Blue</option>
+                    <option>Red</option>
+                    <option>Green</option>
+                </select>
+
+
+                <label>Custom Name / Engraving:</label>
+
+                <input
+                    type="text"
+                    placeholder="Enter your name"
+                    maxlength="20"
+                    id="nameInput"
+                >
+
+                <p class="character">
+                    Maximum 20 characters
+                </p>
+
+
+                <button type="submit">
+                    Add to Cart
+                </button>
+
+                <button type="reset">
+                    Reset
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="cart-section">
+
+            <h2>Cart</h2>
+
+            <div class="cart-box" id="cartBox">
+
+                <p>Drag product here</p>
+
+                <p class="cart-message">
+                    Your cart is empty
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="message" id="message">
+        <p>Customize your product and add it to the cart.</p>
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

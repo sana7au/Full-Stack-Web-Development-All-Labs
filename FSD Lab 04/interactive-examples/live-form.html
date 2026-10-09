@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Form Validator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        form { display: grid; gap: 10px; max-width: 520px; }
+        .field { display: grid; gap: 5px; }
+        .field small { min-height: 1.2em; color: #c24747; }
+        .valid { border-color: #21a366; }
+        .invalid { border-color: #d45353; }
+    </style>
+</head>
+<body>
+    <main class="example-shell">
+        <div class="eyebrow">Input + submit events</div>
+        <h1>Live signup validator</h1>
+        <p class="hint">Each field validates while typing. Submitting only succeeds when all rules pass.</p>
+        <form id="signupForm" novalidate>
+            <label class="field">Full name<input id="name" required minlength="2" autocomplete="name"><small></small></label>
+            <label class="field">Email<input id="email" type="email" required autocomplete="email"><small></small></label>
+            <label class="field">Password<input id="password" type="password" required minlength="8"><small></small></label>
+            <button type="submit">Create account</button>
+        </form>
+        <p class="status" id="status" aria-live="polite"></p>
+        <nav class="example-nav"><a href="index.html">← All examples</a></nav>
+    </main>
+    <script>
+        const form = document.querySelector("#signupForm");
+        const status = document.querySelector("#status");
+        const fields = [...form.querySelectorAll("input")];
+        function validate(field) {
+            const message = field.parentElement.querySelector("small");
+            field.classList.toggle("valid", field.validity.valid && field.value !== "");
+            field.classList.toggle("invalid", !field.validity.valid && field.value !== "");
+            message.textContent = field.validity.valid || field.value === "" ? "" : field.validationMessage;
+            return field.validity.valid;
+        }
+        fields.forEach(field => field.addEventListener("input", () => validate(field)));
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+            const valid = fields.map(validate).every(Boolean);
+            status.textContent = valid ? "Account form is ready to send." : "Please fix the highlighted fields.";
+            status.style.color = valid ? "#16834a" : "#c24747";
+        });
+    </script>
+</body>
+</html>

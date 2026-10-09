@@ -1,0 +1,293 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Student Record Management System</title> 
+ 
+    <style> 
+        h1 { 
+            text-align: center; 
+            color: #006266; 
+            margin-bottom: 25px; 
+        } 
+ 
+        body { 
+            font-family: Arial, sans-serif;  
+            padding: 20px;  
+            background-color: #f1f8f6; 
+            color: #333; 
+        } 
+ 
+        input { 
+            margin: 5px; 
+            padding: 10px; 
+            border: 1px solid #b8c9c5; 
+            border-radius: 5px; 
+        } 
+ 
+        button { 
+            margin: 5px; 
+            padding: 8px; 
+            background-color: #008080; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+        } 
+ 
+        label { 
+            display: block; 
+            margin-top: 10px; 
+        } 
+ 
+        form { 
+            background-color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); 
+            text-align: center;
+        } 
+ 
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 15px; 
+            background-color: white;
+        } 
+
+        th {
+            background-color: #006266;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #d5e2df;
+        }
+ 
+        img { 
+            width: 60px; 
+            height: 60px; 
+            object-fit: cover; 
+        } 
+    </style> 
+</head> 
+ 
+<body> 
+    <h1>Student Result Management System</h1> 
+ 
+        <form id="studentForm"> 
+        <h2>Student Data</h2> 
+        <input id="studentName" type="text" placeholder="Enter Student Name"> 
+        <input id="studentImage" type="text" placeholder="Enter Image URL"> 
+ 
+        <h2>Subjects</h2> 
+        <section id="subjects"></section> 
+ 
+        <input id="newSubject" type="text" placeholder="Enter New Subject"> 
+        <button id="addSubject" type="button">Add Subject</button> 
+ 
+        <section id="marks"></section> 
+ 
+        <button type="submit">Add Student Result</button> 
+    </form> 
+ 
+    <p id="message"></p> 
+ 
+    <h2>Student Results</h2> 
+ 
+    <table> 
+        <thead id="tableHead"></thead> 
+        <tbody id="studentBody"></tbody> 
+    </table> 
+ 
+    <script> 
+        const subjects = ["Mathematics", "English", "Programming"]; 
+        const students = []; 
+ 
+        function displaySubjects() { 
+            let subjectList = document.getElementById("subjects"); 
+            subjectList.innerHTML = ""; 
+ 
+            for (let i = 0; i < subjects.length; i++) { 
+                let subjectLine = document.createElement("p"); 
+ 
+                let input = document.createElement("input"); 
+                input.value = subjects[i]; 
+ 
+                let button = document.createElement("button"); 
+                button.type = "button"; 
+                button.textContent = "Remove"; 
+ 
+                button.addEventListener("click", function () { 
+                    subjects.splice(i, 1); 
+                    displaySubjects(); 
+                    displayMarks(); 
+                    displayStudents(); 
+                }); 
+ 
+                subjectLine.appendChild(input); 
+                subjectLine.appendChild(button); 
+                subjectList.appendChild(subjectLine); 
+            } 
+ 
+            displayMarks(); 
+        } 
+ 
+        function displayMarks() { 
+            let marksBox = document.getElementById("marks"); 
+            marksBox.innerHTML = ""; 
+ 
+            for (let i = 0; i < subjects.length; i++) { 
+                let label = document.createElement("label"); 
+                label.textContent = subjects[i] + " Marks"; 
+ 
+                let input = document.createElement("input"); 
+                input.type = "number"; 
+                input.id = "mark" + i; 
+                input.placeholder = "Enter marks out of 100"; 
+ 
+                marksBox.appendChild(label); 
+                marksBox.appendChild(input); 
+            } 
+        } 
+ 
+        document.getElementById("addSubject").addEventListener("click", function () { 
+            let newSubject = document.getElementById("newSubject").value; 
+ 
+            if (newSubject.trim() !== "") { 
+                subjects.push(newSubject); 
+                document.getElementById("newSubject").value = ""; 
+                displaySubjects(); 
+                displayMarks(); 
+            } 
+        }); 
+ 
+        document.getElementById("studentForm").addEventListener("submit", function (event) { 
+            event.preventDefault(); 
+ 
+            let name = document.getElementById("studentName").value; 
+            let image = document.getElementById("studentImage").value; 
+            let marks = []; 
+ 
+            for (let i = 0; i < subjects.length; i++) { 
+                marks.push(document.getElementById("mark" + i).value); 
+            } 
+ 
+            students.push({ 
+                name: name, 
+                image: image, 
+                marks: marks 
+            }); 
+ 
+            displayStudents(); 
+            document.getElementById("studentForm").reset(); 
+            displaySubjects(); 
+            displayMarks(); 
+            document.getElementById("message").textContent = "Student result added successfully!"; 
+        }); 
+ 
+        function displayStudents() { 
+            let head = document.getElementById("tableHead"); 
+            head.innerHTML = ""; 
+ 
+            let header = document.createElement("tr"); 
+            let headings = ["Image", "Student Name", ...subjects, "Total", "Percentage", "Grade", "Action"]; 
+ 
+            for (let i = 0; i < headings.length; i++) { 
+                let heading = document.createElement("th"); 
+                heading.textContent = headings[i]; 
+                header.appendChild(heading); 
+            } 
+ 
+            head.appendChild(header); 
+ 
+            let body = document.getElementById("studentBody"); 
+            body.innerHTML = ""; 
+ 
+            for (let i = 0; i < students.length; i++) { 
+                let row = document.createElement("tr"); 
+ 
+                let imageCell = document.createElement("td"); 
+                let image = document.createElement("img"); 
+                image.src = students[i].image; 
+                image.alt = students[i].name; 
+                imageCell.appendChild(image); 
+                row.appendChild(imageCell); 
+ 
+                let nameCell = document.createElement("td"); 
+                nameCell.textContent = students[i].name; 
+                row.appendChild(nameCell); 
+ 
+                let total = 0; 
+ 
+                for (let j = 0; j < subjects.length; j++) { 
+                    let markCell = document.createElement("td"); 
+ 
+                    if (j < students[i].marks.length) { 
+                        markCell.textContent = students[i].marks[j]; 
+                        total += Number(students[i].marks[j]); 
+                    } else { 
+                        markCell.textContent = "-"; 
+                    } 
+ 
+                    row.appendChild(markCell); 
+                } 
+ 
+                let percentage = subjects.length > 0 ? total / subjects.length : 0; 
+                let grade = getGrade(percentage); 
+ 
+                let totalCell = document.createElement("td"); 
+                totalCell.textContent = total; 
+                row.appendChild(totalCell); 
+ 
+                let percentageCell = document.createElement("td"); 
+                percentageCell.textContent = percentage.toFixed(2) + "%"; 
+                row.appendChild(percentageCell); 
+ 
+                let gradeCell = document.createElement("td"); 
+                gradeCell.textContent = grade; 
+                row.appendChild(gradeCell); 
+ 
+                let actionCell = document.createElement("td"); 
+                let removeButton = document.createElement("button"); 
+                removeButton.type = "button"; 
+                removeButton.textContent = "Remove"; 
+ 
+                removeButton.addEventListener("click", function () { 
+                    students.splice(i, 1); 
+                    displayStudents(); 
+                }); 
+ 
+                actionCell.appendChild(removeButton); 
+                row.appendChild(actionCell); 
+                body.appendChild(row); 
+            } 
+        } 
+ 
+        function getGrade(percentage) { 
+            if (percentage >= 90) { 
+                return "A+"; 
+            }  
+            else if (percentage >= 80) { 
+                return "A"; 
+            }  
+            else if (percentage >= 70) { 
+                return "B"; 
+            }  
+            else if (percentage >= 60) { 
+                return "C"; 
+            }  
+            else if (percentage >= 50) { 
+                return "D"; 
+            } 
+            return "F"; 
+        } 
+ 
+        displaySubjects(); 
+        displayStudents(); 
+    </script> 
+</body> 
+</html>

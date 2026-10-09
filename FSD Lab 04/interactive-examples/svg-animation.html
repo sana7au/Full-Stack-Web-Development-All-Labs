@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Drawing Animation</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .stage {
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            border-radius: 18px;
+            background: #f1f5ff;
+        }
+
+        svg {
+            width: min(100%, 520px);
+            overflow: visible;
+        }
+
+        .route {
+            fill: none;
+            stroke: #5b5ce2;
+            stroke-linecap: round;
+            stroke-width: 9;
+            stroke-dasharray: 900;
+            stroke-dashoffset: 900;
+        }
+
+        .route.draw {
+            animation: draw-route 2.2s ease forwards;
+        }
+
+        @keyframes draw-route {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="example-shell">
+        <div class="eyebrow">SVG + animation events</div>
+        <h1>Draw a route</h1>
+        <p class="hint">The button toggles a CSS animation on an SVG path. The range input changes the stroke width using the <code>input</code> event.</p>
+        <div class="stage">
+            <svg viewBox="0 0 520 240" role="img" aria-label="Animated route">
+                <path class="route" id="route" d="M30 190 C100 30, 170 220, 250 100 S390 40, 490 170"></path>
+                <circle cx="30" cy="190" r="10" fill="#08a6b5"></circle>
+                <circle cx="490" cy="170" r="10" fill="#f08a5d"></circle>
+            </svg>
+        </div>
+        <p class="status" id="status" aria-live="polite">Ready to draw.</p>
+        <label for="stroke">Stroke width: <output id="strokeValue">9</output>px</label>
+        <input id="stroke" type="range" min="3" max="18" value="9">
+        <button id="drawButton" type="button">Draw route</button>
+        <nav class="example-nav"><a href="index.html">← All examples</a></nav>
+    </main>
+    <script>
+        const route = document.querySelector("#route");
+        const drawButton = document.querySelector("#drawButton");
+        const stroke = document.querySelector("#stroke");
+        const strokeValue = document.querySelector("#strokeValue");
+        const status = document.querySelector("#status");
+
+        drawButton.addEventListener("click", () => {
+            route.classList.remove("draw");
+            void route.getBoundingClientRect();
+            route.classList.add("draw");
+            status.textContent = "The route is animating.";
+        });
+        stroke.addEventListener("input", () => {
+            route.style.strokeWidth = stroke.value;
+            strokeValue.textContent = stroke.value;
+        });
+        route.addEventListener("animationend", () => {
+            status.textContent = "Route completed.";
+        });
+    </script>
+</body>
+
+</html>
