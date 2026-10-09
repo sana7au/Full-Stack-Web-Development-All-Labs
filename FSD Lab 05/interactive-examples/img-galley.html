@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Image Carousel | Interactive Examples</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        .gallery { overflow: hidden; border-radius: 22px; background: #172033; box-shadow: 0 22px 45px rgba(23, 32, 51, .22); }
+        .gallery-stage { padding: 18px; background: linear-gradient(135deg, #263857, #111a2b); }
+        #photo { display: block; width: 100%; max-height: 430px; object-fit: cover; border-radius: 14px; cursor: zoom-in; transition: transform .8s; }
+        #photo.zoom { transform: scale(1.06); }
+        .gallery-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; color: #dce5f5; }
+        .gallery-controls button { padding: 10px 16px; background: #334461; box-shadow: none; }
+        #counter { margin: 0; font-size: .9rem; }
+        #message { margin: 0; color: var(--muted); }
+    </style>
+</head>
+
+<body>
+    <main class="example-shell">
+        <div class="topbar"><div class="brand"><span class="brand-mark">▧</span> Field Notes</div><a href="index.html">All examples</a></div>
+        <div class="eyebrow">Mouse events + state</div>
+        <h1>Travel gallery</h1>
+        <p class="hint">Move over the photo to zoom in, then use the navigation buttons to update the gallery state.</p>
+        <section class="gallery">
+            <div class="gallery-stage"><img id="photo" src="https://picsum.photos/id/1015/900/540" alt="Gallery Image"></div>
+            <div class="gallery-controls"><button id="previousBtn" type="button">← Previous</button><p id="counter"></p><button id="nextBtn" type="button">Next →</button></div>
+        </section>
+        <p class="status" id="message">Hover over the photo to explore.</p>
+        <nav class="example-nav"><a href="index.html">← All examples</a></nav>
+    </main>
+
+
+    <script>
+
+        const images = [
+            "https://picsum.photos/id/1015/400/250",
+            "https://picsum.photos/id/1016/400/250",
+            "https://picsum.photos/id/1018/400/250",
+            "https://picsum.photos/id/1025/400/250"
+        ];
+
+        let index = 0;
+
+        const photo = document.querySelector("#photo");
+        const previousBtn = document.querySelector("#previousBtn");
+        const nextBtn = document.querySelector("#nextBtn");
+        const counter = document.querySelector("#counter");
+        const message = document.querySelector("#message");
+
+
+        // Update image
+        function updateGallery() {
+
+            photo.src = images[index];
+
+            counter.textContent =
+                "Image " + (index + 1) +
+                " of " + images.length;
+        }
+
+
+        // Next
+        nextBtn.addEventListener("click", function () {
+
+            index++;
+
+            if (index >= images.length) {
+                index = 0;
+            }
+
+            updateGallery();
+        });
+
+
+        previousBtn.addEventListener("click", function () {
+
+            index--;
+
+            if (index < 0) {
+                index = images.length - 1;
+            }
+
+            updateGallery();
+        });
+
+
+        photo.addEventListener("mouseenter", function () {
+
+            photo.classList.add("zoom");
+
+            message.textContent = "Zoomed in";
+
+        });
+
+        photo.addEventListener("mouseleave", function () {
+
+            photo.classList.remove("zoom");
+
+            message.textContent = "Normal size";
+
+        });
+
+        updateGallery();
+
+
+
+    </script>
+
+</body>
+
+</html>

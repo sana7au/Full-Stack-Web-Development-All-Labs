@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag-and-Drop Board</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .column {
+            min-height: 220px;
+            padding: 14px;
+            border-radius: 14px;
+            background: #f1f4fa;
+        }
+
+        .column.over {
+            outline: 3px dashed var(--secondary);
+        }
+
+        .task {
+            margin: 10px 0;
+            padding: 14px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 5px 12px rgba(28, 42, 78, .08);
+            cursor: grab;
+        }
+
+        @media (max-width: 700px) {
+            .board {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="example-shell">
+        <div class="eyebrow">Drag events</div>
+        <h1>Mini project board</h1>
+        <p class="hint">Drag a task to another column. Watch how <code>dragstart</code>, <code>dragover</code>, and <code>drop</code> work together.</p>
+        <div class="board">
+            <section class="column" data-column="Todo">
+                <h2>Todo</h2>
+                <div class="task" draggable="true">Plan lesson</div>
+                <div class="task" draggable="true">Write quiz</div>
+            </section>
+            <section class="column" data-column="Doing">
+                <h2>Doing</h2>
+                <div class="task" draggable="true">Build demo</div>
+            </section>
+            <section class="column" data-column="Done">
+                <h2>Done</h2>
+            </section>
+        </div>
+        <p class="status" id="status" aria-live="polite">Choose a task to move.</p>
+        <nav class="example-nav"><a href="index.html">← All examples</a></nav>
+    </main>
+    <script>
+        let draggedTask;
+        const status = document.querySelector("#status");
+        document.querySelectorAll(".task").forEach(task => {
+            task.addEventListener("dragstart", event => {
+                draggedTask = event.currentTarget;
+                status.textContent = `Dragging “${draggedTask.textContent}”.`;
+            });
+        });
+        document.querySelectorAll(".column").forEach(column => {
+            column.addEventListener("dragover", event => {
+                event.preventDefault();
+                column.classList.add("over");
+            });
+            column.addEventListener("dragleave", () => column.classList.remove("over"));
+            column.addEventListener("drop", event => {
+                event.preventDefault();
+                column.classList.remove("over");
+                if (!draggedTask) return;
+                column.append(draggedTask);
+                status.textContent = `Moved “${draggedTask.textContent}” to ${column.dataset.column}.`;
+                draggedTask = null;
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator | Interactive Examples</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        .calculator { width: min(100%, 360px); margin: auto; padding: 22px; border-radius: 24px; background: #151b2d; box-shadow: 0 22px 45px rgba(21, 27, 45, .24); }
+        #display { width: 100%; height: 76px; margin-bottom: 16px; padding: 12px 16px; color: #fff; border: 0; border-radius: 14px; background: #252e46; font-size: 2rem; text-align: right; }
+        .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+        .buttons button { padding: 16px 10px; color: #dce5f5; background: #29344e; font-size: 1.1rem; box-shadow: none; }
+        .buttons button:last-child { grid-column: span 4; color: #fff; background: linear-gradient(135deg, #6e70f3, #11b4bf); }
+        .calculator + .example-nav { max-width: 360px; margin: 24px auto 0; }
+    </style>
+</head>
+
+<body>
+    <main class="example-shell">
+        <div class="topbar"><div class="brand"><span class="brand-mark">+</span> Pocket Tools</div><a href="index.html">All examples</a></div>
+        <div class="eyebrow">Click events + DOM creation</div>
+        <h1>Quick calculator</h1>
+        <p class="hint">Buttons are created with JavaScript and each one receives its own click event listener.</p>
+        <div class="calculator">
+
+        <input type="text" id="display" readonly>
+
+        <div class="buttons" id="buttons"></div>
+
+        </div>
+        <nav class="example-nav"><a href="index.html">← All examples</a></nav>
+    </main>
+
+    <script>
+
+        const display = document.querySelector("#display");
+        const buttonsContainer = document.querySelector("#buttons");
+
+
+        const buttons = [
+            "7", "8", "9", "/",
+            "4", "5", "6", "*",
+            "1", "2", "3", "-",
+            "0", ".", "=", "+",
+            "C"
+        ];
+
+
+        for (let i = 0; i < buttons.length; i++) {
+
+            const button = document.createElement("button");
+
+            button.textContent = buttons[i];
+
+            buttonsContainer.appendChild(button);
+
+
+            button.addEventListener("click", function () {
+
+                const value = button.textContent;
+
+                if (value === "C") {
+
+                    display.value = "";
+
+                }
+                else if (value === "=") {
+
+                    display.value = eval(display.value);
+
+                }
+                else {
+
+                    display.value += value;
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

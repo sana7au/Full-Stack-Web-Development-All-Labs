@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Profile</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        .payment-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .8fr); gap: 26px; align-items: start; }
+        .payment { display: grid; gap: 13px; }
+        .payment label { color: var(--muted); font-size: .88rem; font-weight: 700; }
+        .payment input, .payment select, .payment button { width: 100%; margin: 5px 0; }
+        .card-preview { min-height: 210px; padding: 24px; color: #fff; border-radius: 20px; background: linear-gradient(135deg, #202a63, #0b8d9d); box-shadow: 0 18px 30px rgba(32, 42, 99, .25); }
+        .card-brand { display: flex; justify-content: space-between; font-size: .8rem; letter-spacing: .12em; }
+        .chip { width: 38px; height: 28px; margin-top: 28px; border-radius: 6px; background: linear-gradient(135deg, #ffe2a3, #c7974d); }
+        .card-number { margin: 20px 0; font-size: 1.35rem; letter-spacing: .1em; }
+        .card-meta { display: flex; justify-content: space-between; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+        .error { color: #c24747; font-size: 14px; }
+        .success { color: #16834a; }
+        @media (max-width: 700px) { .payment-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body>
+    <main class="example-shell">
+        <div class="topbar"><div class="brand"><span class="brand-mark">✓</span> Checkout</div><a href="index.html">All examples</a></div>
+        <div class="eyebrow">Input + change + submit</div>
+        <h1>Secure payment profile</h1>
+        <p class="hint">Type into the form to see the card preview update in real time. No payment is sent.</p>
+        <div class="payment-layout">
+        <div class="payment">
+
+        <form id="paymentForm">
+
+            <label>Payment Method</label>
+
+            <select id="paymentMethod">
+                <option value="card">Credit / Debit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="cash">Cash</option>
+            </select>
+
+            <div id="cardFields">
+
+                <input id="cardName" type="text" placeholder="Cardholder Name">
+
+                <input id="cardNumber" type="text" placeholder="Card Number" maxlength="19">
+
+                <input id="expiry" type="text" placeholder="MM/YY" maxlength="5">
+
+                <input id="cvv" type="text" placeholder="CVV" maxlength="3">
+
+            </div>
+
+            <button type="submit">Pay Now</button>
+
+            <p id="message"></p>
+
+        </form>
+
+
+        </div>
+        <div class="card-preview">
+            <div class="card-brand"><strong>MY BANK</strong><span>VISA</span></div>
+            <div class="chip"></div>
+
+            <div id="previewNumber" class="card-number">
+                **** **** **** ****
+            </div>
+
+            <div class="card-meta"><span id="previewName">CARD HOLDER</span><span id="previewExpiry">MM/YY</span></div>
+
+        </div>
+        </div>
+        <nav class="example-nav"><a href="index.html">← All examples</a></nav>
+    </main>
+
+
+    <script>
+
+        const form = document.getElementById("paymentForm");
+
+        const paymentMethod =
+            document.getElementById("paymentMethod");
+
+        const cardFields =
+            document.getElementById("cardFields");
+
+        const cardName =
+            document.getElementById("cardName");
+
+        const cardNumber =
+            document.getElementById("cardNumber");
+
+        const expiry =
+            document.getElementById("expiry");
+
+        const cvv =
+            document.getElementById("cvv");
+
+        const message =
+            document.getElementById("message");
+
+        const previewNumber =
+            document.getElementById("previewNumber");
+
+        const previewName =
+            document.getElementById("previewName");
+
+        const previewExpiry =
+            document.getElementById("previewExpiry");
+
+
+        paymentMethod.addEventListener("change", function () {
+
+            if (this.value === "card") {
+
+                cardFields.style.display = "block";
+
+            }
+            else {
+
+                cardFields.style.display = "none";
+
+            }
+
+        });
+
+
+        cardName.addEventListener("input", function () {
+
+            this.value = this.value.replace(/[^a-zA-Z ]/g, "");
+
+            previewName.textContent =
+                this.value.toUpperCase() || "CARD HOLDER";
+
+        });
+
+
+        // Card number
+        cardNumber.addEventListener("input", function () {
+
+            // Remove everything except numbers
+            let numbers = this.value.replace(/\D/g, "");
+
+            // Maximum 16 digits
+            numbers = numbers.substring(0, 16);
+
+            // Add space after every 4 digits
+            this.value = numbers.replace(/(.{4})/g, "$1 ").trim();
+
+            // Update card preview
+            previewNumber.textContent =
+                this.value || "**** **** **** ****";
+
+        });
+
+
+        // Expiry date
+        expiry.addEventListener("input", function () {
+
+            // Only numbers
+            let numbers = this.value.replace(/\D/g, "");
+
+            // Maximum 4 digits
+            numbers = numbers.substring(0, 4);
+
+            // Add / after MM
+            if (numbers.length > 2) {
+                this.value =
+                    numbers.substring(0, 2) +
+                    "/" +
+                    numbers.substring(2);
+            }
+            else {
+                this.value = numbers;
+            }
+
+            previewExpiry.textContent =
+                this.value || "MM/YY";
+
+        });
+
+
+        // CVV
+        cvv.addEventListener("input", function () {
+
+            // Only numbers
+            this.value =
+                this.value.replace(/\D/g, "");
+
+            // Maximum 3 digits
+            this.value =
+                this.value.substring(0, 3);
+
+        });
+
+
+        // Form submit
+        form.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            message.className = "error";
+            message.textContent = "";
+
+
+            // If card payment
+            if (paymentMethod.value === "card") {
+
+                const cardDigits =
+                    cardNumber.value.replace(/\s/g, "");
+
+                const expiryValue =
+                    expiry.value;
+
+                const cvvValue =
+                    cvv.value;
+
+
+                // Card number check
+                if (cardDigits.length !== 16) {
+
+                    message.textContent =
+                        "Card number must contain 16 digits.";
+
+                    return;
+                }
+
+
+                // Expiry format check
+                if (!/^\d{2}\/\d{2}$/.test(expiryValue)) {
+
+                    message.textContent =
+                        "Enter expiry as MM/YY.";
+
+                    return;
+                }
+
+
+                // Month check
+                const month =
+                    parseInt(expiryValue.substring(0, 2));
+
+                if (month < 1 || month > 12) {
+
+                    message.textContent =
+                        "Enter a valid expiry month.";
+
+                    return;
+                }
+
+
+                // CVV check
+                if (cvvValue.length !== 3) {
+
+                    message.textContent =
+                        "CVV must contain 3 digits.";
+
+                    return;
+                }
+
+            }
+
+
+            message.className = "success";
+            message.textContent =
+                "Payment information is valid!";
+
+        });
+
+    </script>
+
+</body>
+
+</html>

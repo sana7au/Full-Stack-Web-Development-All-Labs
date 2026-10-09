@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive JavaScript Examples</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .catalog {
+            max-width: 1080px;
+            margin: auto;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+        }
+
+        .demo-card {
+            display: block;
+            padding: 20px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            color: var(--ink);
+            background: #fff;
+            text-decoration: none;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(28, 42, 78, .1);
+        }
+
+        .demo-card strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .demo-card span {
+            color: var(--muted);
+            font-size: .92rem;
+            line-height: 1.45;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="example-shell catalog">
+        <div class="eyebrow">JavaScript events practice</div>
+        <h1>Interactive Examples</h1>
+        <p class="hint">Small, realistic projects for exploring DOM events, media APIs, animation, and form interactions. Open any card, inspect the source, and change one event at a time.</p>
+        <div class="catalog-grid">
+            <a class="demo-card" href="calc.html"><strong>Calculator</strong><span>Click events, dynamic buttons, and keyboard-safe output.</span></a>
+            <a class="demo-card" href="img-galley.html"><strong>Image Carousel</strong><span>Previous/next controls, hover events, and changing content.</span></a>
+            <a class="demo-card" href="payment-method.html"><strong>Payment Profile</strong><span>Input, change, submit, formatting, and validation events.</span></a>
+            <a class="demo-card" href="video-player.html"><strong>Custom Video Player</strong><span>Media events, progress, volume, mute, and playback speed.</span></a>
+            <a class="demo-card" href="svg-animation.html"><strong>SVG Drawing Animation</strong><span>Animate an SVG path and control it with click and range events.</span></a>
+            <a class="demo-card" href="lottie-animation.html"><strong>Lottie Animation</strong><span>Load a reusable JSON animation and control playback from buttons.</span></a>
+            <a class="demo-card" href="drag-drop-board.html"><strong>Drag-and-Drop Board</strong><span>Drag tasks between columns and respond to drag events.</span></a>
+            <a class="demo-card" href="live-form.html"><strong>Live Form Validator</strong><span>Validate fields during input and submit a realistic signup form.</span></a>
+        </div>
+        <nav class="example-nav"><a href="../index.php">← Back to 28 PHP event examples</a></nav>
+    </main>
+</body>
+
+</html>
