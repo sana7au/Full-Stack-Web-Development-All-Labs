@@ -415,11 +415,25 @@ input.invalid { border-color: var(--red); }
     0%, 100% { fill: #080a0d; }
     50% { fill: #1c3a42; }
 }
+.api-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
+.api-status { min-height: 24px; font-weight: bold; color: var(--muted); }
+.api-status.loading { color: var(--gold); }
+.api-status.success { color: var(--green); }
+.api-status.error { color: var(--red); }
+.api-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.api-card { padding: 15px; background: var(--light); border: 1px solid var(--border); border-radius: 10px; animation: popIn 0.4s; }
+.api-card img { display: block; width: 100%; height: 180px; object-fit: contain; margin-bottom: 10px; background: #2a2e37; border-radius: 8px; }
+.api-card h3 { font-size: 17px; }
+.api-card .api-category { color: var(--muted); font-size: 13px; text-transform: capitalize; }
+.api-card .api-price { color: var(--gold); font-size: 22px; font-weight: bold; margin: 6px 0; }
+.api-card .api-description { color: var(--muted); font-size: 14px; margin: 0; }
+.api-no-image { display: grid; place-items: center; width: 100%; height: 180px; margin-bottom: 10px; background: #2a2e37; border-radius: 8px; color: var(--muted); }
 @media (max-width: 1000px) {
     .premium-controls { grid-template-columns: 1fr; }
+    .api-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 800px) {
-    .grid-2, .video-layout, .compare-grid { grid-template-columns: 1fr; }
+    .grid-2, .video-layout, .compare-grid, .api-grid { grid-template-columns: 1fr; }
     .menu-toggle { display: block; }
     .main-nav {
         display: none;

@@ -14,6 +14,7 @@
         <nav id="mainNav" class="main-nav">
             <a href="#product">Product</a>
             <a href="#cart">Cart <span id="cartCount" class="cart-count">0</span></a>
+            <a href="#catalog">Catalog</a>
             <a href="#video">Video Ad</a>
             <a href="#premium">Premium</a>
             <a href="#payment">Upgrade</a>
@@ -122,6 +123,17 @@
                     <p>Total: <strong id="cartTotal">$0</strong></p>
                     <button type="button" id="clearCartBtn" class="btn ghost">Clear Cart</button>
                 </div>
+            </div>
+        </section>
+        <section id="catalog" class="section reveal">
+            <div class="panel">
+                <h2>Live Product Catalog</h2>
+                <p class="muted">Product information is loaded from the public DummyJSON API using a jQuery AJAX GET request.</p>
+                <div class="api-controls">
+                    <button type="button" id="apiLoadBtn" class="btn primary">Load Products from API</button>
+                </div>
+                <p id="apiStatus" class="api-status">Click the button to load products from the API.</p>
+                <div id="apiGrid" class="api-grid"></div>
             </div>
         </section>
         <section id="video" class="section reveal">

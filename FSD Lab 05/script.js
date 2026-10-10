@@ -666,6 +666,75 @@ $(document).ready(function () {
             observer.observe(this);
         });
     }
+    const API_URL = "https://dummyjson.com/products/";
+    const apiLoadBtn = $("#apiLoadBtn");
+    const apiStatus = $("#apiStatus");
+    const apiGrid = $("#apiGrid");
+    function setApiStatus(text, type) {
+        apiStatus.text(text);
+        apiStatus.attr("class", "api-status " + (type || ""));
+    }
+    function showApiProducts(products) {
+        apiGrid.empty();
+        $.each(products, function (index, product) {
+            const card = $("<div>").addClass("api-card");
+            const image = $("<img>").attr({ src: product.thumbnail, alt: product.title });
+            image.on("error", function () {
+                image.replaceWith($("<div>").addClass("api-no-image").text("Image not available"));
+            });
+            card.append(image);
+            card.append($("<h3>").text(product.title));
+            card.append($("<p>").addClass("api-category").text("Category: " + product.category));
+            card.append($("<p>").addClass("api-price").text("$" + product.price));
+            card.append($("<p>").addClass("api-description").text(product.description));
+            apiGrid.append(card);
+        });
+    }
+    function loadProducts() {
+        const url = API_URL;
+        console.log("Request: GET " + url);
+        apiLoadBtn.prop("disabled", true);
+        apiGrid.empty();
+        setApiStatus("Sending GET request to " + url + " ...", "loading");
+        $.ajax({
+            url: url,
+            method: "GET",
+            dataType: "json",
+            timeout: 10000,
+            success: function (response) {
+                console.log("Response (JSON):", response);
+                if (!response.products || response.products.length === 0) {
+                    setApiStatus("The API responded, but no products were found.", "error");
+                    showMessage("No products found for this category.", "error");
+                    return;
+                }
+                showApiProducts(response.products);
+                setApiStatus("Success: " + response.products.length + " products received and displayed.", "success");
+                showMessage("✓ Products loaded from the API.", "success");
+            },
+            error: function (xhr, status, error) {
+                console.log("Request failed:", status, error, xhr.status);
+                let reason = "Something went wrong while loading products.";
+                if (status === "timeout") {
+                    reason = "The request timed out. Please try again.";
+                } else if (xhr.status === 0) {
+                    reason = "Network error. Check your internet connection.";
+                } else if (xhr.status === 404) {
+                    reason = "Products not found (error 404).";
+                } else if (xhr.status >= 500) {
+                    reason = "The API server has a problem (error " + xhr.status + ").";
+                } else if (status === "parsererror") {
+                    reason = "The API returned invalid data.";
+                }
+                setApiStatus("Failed: " + reason, "error");
+                showMessage("Could not load products. " + reason, "error");
+            },
+            complete: function () {
+                apiLoadBtn.prop("disabled", false);
+            }
+        });
+    }
+    apiLoadBtn.click(loadProducts);
     function startApp() {
         $("html").addClass("js");
         setupSectionAnimation();
