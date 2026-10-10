@@ -428,6 +428,11 @@ input.invalid { border-color: var(--red); }
 .api-card .api-price { color: var(--gold); font-size: 22px; font-weight: bold; margin: 6px 0; }
 .api-card .api-description { color: var(--muted); font-size: 14px; margin: 0; }
 .api-no-image { display: grid; place-items: center; width: 100%; height: 180px; margin-bottom: 10px; background: #2a2e37; border-radius: 8px; color: var(--muted); }
+.backend-grid { margin-top: 15px; }
+.backend-box { padding: 15px; background: var(--light); border: 1px solid var(--border); border-radius: 8px; min-width: 0; }
+.backend-box h3 { font-size: 17px; }
+.backend-box ul { margin: 0 0 10px; }
+.backend-log { margin: 0; padding: 10px; max-height: 320px; overflow: auto; background: #0f1115; color: #cfd3dc; border-radius: 6px; font-size: 12px; white-space: pre-wrap; word-break: break-word; }
 @media (max-width: 1000px) {
     .premium-controls { grid-template-columns: 1fr; }
     .api-grid { grid-template-columns: 1fr 1fr; }

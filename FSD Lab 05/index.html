@@ -15,6 +15,7 @@
             <a href="#product">Product</a>
             <a href="#cart">Cart <span id="cartCount" class="cart-count">0</span></a>
             <a href="#catalog">Catalog</a>
+            <a href="#backend">Backend</a>
             <a href="#video">Video Ad</a>
             <a href="#premium">Premium</a>
             <a href="#payment">Upgrade</a>
@@ -134,6 +135,27 @@
                 </div>
                 <p id="apiStatus" class="api-status">Click the button to load products from the API.</p>
                 <div id="apiGrid" class="api-grid"></div>
+            </div>
+        </section>
+        <section id="backend" class="section reveal">
+            <div class="panel">
+                <h2>Backend Connection (Node.js + Express)</h2>
+                <p class="muted">The product information comes from a local Express server (GET), and the current configuration can be sent to it (POST) as JSON.</p>
+                <div class="api-controls">
+                    <button type="button" id="backendGetBtn" class="btn primary">Load Product Info (GET)</button>
+                    <button type="button" id="backendPostBtn" class="btn secondary">Submit Current Configuration (POST)</button>
+                </div>
+                <p id="backendStatus" class="api-status">Start the backend server, then use the buttons above.</p>
+                <div class="grid-2 backend-grid">
+                    <div class="backend-box">
+                        <h3>Product from backend</h3>
+                        <div id="backendProduct" class="muted">No data loaded yet.</div>
+                    </div>
+                    <div class="backend-box">
+                        <h3>Last request and response</h3>
+                        <pre id="backendLog" class="backend-log">Nothing sent yet.</pre>
+                    </div>
+                </div>
             </div>
         </section>
         <section id="video" class="section reveal">

@@ -735,6 +735,130 @@ $(document).ready(function () {
         });
     }
     apiLoadBtn.click(loadProducts);
+    const BACKEND_URL = "http://localhost:3000";
+    const backendGetBtn = $("#backendGetBtn");
+    const backendPostBtn = $("#backendPostBtn");
+    const backendStatus = $("#backendStatus");
+    const backendProduct = $("#backendProduct");
+    const backendLog = $("#backendLog");
+    function setBackendStatus(text, type) {
+        backendStatus.text(text);
+        backendStatus.attr("class", "api-status " + (type || ""));
+    }
+    function getBackendErrorReason(xhr, status) {
+        if (status === "timeout") {
+            return "The request timed out.";
+        }
+        if (xhr.status === 0) {
+            return "Cannot reach the backend. Make sure it is running on " + BACKEND_URL + " (node server.js).";
+        }
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+            return xhr.responseJSON.message + " (error " + xhr.status + ")";
+        }
+        return "The backend returned error " + xhr.status + ".";
+    }
+    function showBackendProduct(product) {
+        const variants = $.map(product.variants, function (variant) {
+            return variant.label + " ($" + variant.price + ")";
+        });
+        backendProduct.empty();
+        backendProduct.append($("<h3>").text(product.name));
+        backendProduct.append($("<p>").addClass("price").text("From $" + product.basePrice));
+        backendProduct.append($("<p>").addClass("description").text(product.description));
+        backendProduct.append($("<p>").text("Colors: " + product.colors.join(", ")));
+        backendProduct.append($("<p>").text("Variants: " + variants.join(", ")));
+        backendProduct.append($("<p>").text("Strap styles: " + product.strapStyles.join(", ")));
+        const list = $("<ul>");
+        $.each(product.features, function (index, feature) {
+            list.append($("<li>").text(feature));
+        });
+        backendProduct.append(list);
+    }
+    function loadBackendProduct() {
+        const url = BACKEND_URL + "/api/products";
+        console.log("Request: GET " + url);
+        backendGetBtn.prop("disabled", true);
+        setBackendStatus("Sending GET request to " + url + " ...", "loading");
+        $.ajax({
+            url: url,
+            method: "GET",
+            dataType: "json",
+            timeout: 10000,
+            success: function (response) {
+                console.log("Response (JSON):", response);
+                backendLog.text("GET " + url + "\n\nResponse:\n" + JSON.stringify(response, null, 2));
+                if (!response || response.length === 0) {
+                    setBackendStatus("The backend responded, but no products were found.", "error");
+                    return;
+                }
+                showBackendProduct(response[0]);
+                setBackendStatus("Success: product information received from the backend.", "success");
+                showMessage("✓ Product info loaded from the backend.", "success");
+            },
+            error: function (xhr, status, error) {
+                console.log("GET request failed:", status, error, xhr.status);
+                const reason = getBackendErrorReason(xhr, status);
+                backendLog.text("GET " + url + "\n\nFailed: " + reason);
+                setBackendStatus("Failed: " + reason, "error");
+                showMessage("Could not load product info. " + reason, "error");
+            },
+            complete: function () {
+                backendGetBtn.prop("disabled", false);
+            }
+        });
+    }
+    function getCurrentConfiguration() {
+        const variant = VARIANTS[variantSelect.val()];
+        const engraving = nameInput.val().trim();
+        return {
+            productName: $("#productTitle").text(),
+            color: currentColorName,
+            variant: variant.label,
+            strapStyle: styleSelect.find("option:selected").text(),
+            engraving: engraving === "" ? "None" : engraving,
+            extras: getActiveExtras(),
+            price: variant.price
+        };
+    }
+    function submitConfiguration() {
+        const url = BACKEND_URL + "/api/configurations";
+        const configuration = getCurrentConfiguration();
+        const jsonData = JSON.stringify(configuration);
+        console.log("Request: POST " + url);
+        console.log("JavaScript object:", configuration);
+        console.log("JSON string sent in the request body:", jsonData);
+        backendPostBtn.prop("disabled", true);
+        setBackendStatus("Sending POST request to " + url + " ...", "loading");
+        $.ajax({
+            url: url,
+            method: "POST",
+            contentType: "application/json",
+            data: jsonData,
+            dataType: "json",
+            timeout: 10000,
+            success: function (response) {
+                console.log("Response (JSON):", response);
+                backendLog.text(
+                    "POST " + url + "\n\nRequest body:\n" + JSON.stringify(configuration, null, 2) +
+                    "\n\nResponse:\n" + JSON.stringify(response, null, 2)
+                );
+                setBackendStatus(response.message + " (ID: " + response.configuration.id + ")", "success");
+                showMessage("✓ " + response.message, "success");
+            },
+            error: function (xhr, status, error) {
+                console.log("POST request failed:", status, error, xhr.status);
+                const reason = getBackendErrorReason(xhr, status);
+                backendLog.text("POST " + url + "\n\nRequest body:\n" + JSON.stringify(configuration, null, 2) + "\n\nFailed: " + reason);
+                setBackendStatus("Failed: " + reason, "error");
+                showMessage("Could not submit configuration. " + reason, "error");
+            },
+            complete: function () {
+                backendPostBtn.prop("disabled", false);
+            }
+        });
+    }
+    backendGetBtn.click(loadBackendProduct);
+    backendPostBtn.click(submitConfiguration);
     function startApp() {
         $("html").addClass("js");
         setupSectionAnimation();
