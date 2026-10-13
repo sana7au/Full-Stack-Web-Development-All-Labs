@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 9 - Student AJAX App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <header class="card-header">
+            <div>
+                <span class="badge">Step 09 &bull; Fullstack CORS App</span>
+                <h1>Student application</h1>
+            </div>
+            <span class="api-pill">Target API: :3004/api/students</span>
+        </header>
+
+        <section class="dashboard-grid">
+            <div class="panel-card">
+                <h2 id="formTitle">Add student</h2>
+                <div class="form-card">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input id="name" type="text" placeholder="e.g. Fatima Zahra" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input id="city" type="text" placeholder="e.g. Karachi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input id="age" type="number" placeholder="e.g. 21" min="15" max="100">
+                    </div>
+                    <div class="form-actions">
+                        <button id="addStudent" class="btn btn-primary" type="button">➕ Add student</button>
+                        <button id="cancelEdit" class="btn btn-cancel" type="button">Cancel edit</button>
+                    </div>
+                    <p id="message"></p>
+                </div>
+            </div>
+
+            <div class="panel-card">
+                <div class="panel-title">
+                    <span>Enrolled Roster</span>
+                    <button id="loadStudents" class="btn btn-refresh" type="button">🔄 Load students</button>
+                </div>
+                <div class="directory-toolbar">
+                    <input type="text" id="filterStudents" class="filter-input" placeholder="Search roster by name or city..." autocomplete="off">
+                </div>
+                <div id="students"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronos Smart Watch Configurator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <a href="#product" class="logo">Chronos Watch Configurator</a>
+        <button id="menuToggle" class="menu-toggle" type="button" aria-label="Toggle menu">☰</button>
+        <nav id="mainNav" class="main-nav">
+            <a href="#product">Customize Watch</a>
+            <a href="#savedDesigns">Saved Designs</a>
+            <a href="#premium">Premium</a>
+            <a href="#payment">Upgrade</a>
+        </nav>
+        <span id="statusBadge" class="status-badge free">Free User</span>
+    </header>
+    <main>
+        <section class="hero reveal">
+            <h1>Design Your Own Chronos Smart Watch</h1>
+            <p class="subtitle">Choose a watch image, customize its details, and save the complete design to your MySQL database.</p>
+        </section>
+        <section id="product" class="section reveal">
+            <div class="grid-2">
+                <div class="panel">
+                    <h2>Watch Image Preview</h2>
+                    <div class="product-card" id="productCard">
+                        <div class="preview" id="preview">
+                            <div class="preview-inner" id="previewInner">
+                                <img id="watchImagePreview" class="uploaded-watch-image" alt="Selected watch preview" src="" hidden>
+                                <div id="imagePlaceholder" class="image-placeholder">Select a watch image to preview it here.</div>
+                            </div>
+                            <p class="hover-info" id="hoverInfo">Your selected image will appear here.</p>
+                        </div>
+                        <h3 id="productTitle">Chronos Smart Watch</h3>
+                        <p class="engraving-line">Engraving: <strong id="productName">None</strong></p>
+                        <p class="price" id="productPrice">$120</p>
+                        <p class="description">Choose an image and customize the watch information before saving.</p>
+                    </div>
+                    <label for="watchImageInput">Choose Watch Image</label>
+                    <input type="file" id="watchImageInput" accept="image/*">
+                    <small class="muted">The selected image file will be stored in the database with this design. Use a reasonably sized image.</small>
+                    <p id="imageError" class="error"></p>
+                </div>
+                <div class="panel">
+                    <h2>Customize Watch</h2>
+                    <form id="customForm" novalidate>
+                        <label for="productNameInput">Watch Name</label>
+                        <input type="text" id="productNameInput" value="Chronos Smart Watch" maxlength="100" required>
+                        <label for="colorSelect">Choose Color <span class="tag free-tag">FREE</span></label>
+                        <select id="colorSelect"><option>Black</option><option>Blue</option><option>Red</option><option>Green</option></select>
+                        <label for="variantSelect">Choose Variant <span class="tag free-tag">FREE</span></label>
+                        <select id="variantSelect"><option value="standard">Standard 40mm - $120</option><option value="sport">Sport 44mm - $150</option><option value="lite">Lite 38mm - $99</option></select>
+                        <label for="styleSelect">Strap Style <span class="tag free-tag">FREE</span></label>
+                        <select id="styleSelect"><option value="sport">Sport Band</option><option value="leather">Leather Stitch</option><option value="metal">Metal Link</option></select>
+                        <label for="nameInput">Custom Name / Engraving</label>
+                        <input type="text" id="nameInput" maxlength="20" placeholder="Enter engraving" autocomplete="off">
+                        <div class="counter-row"><small id="nameCounter" class="counter">0 / 20 characters</small><small id="nameError" class="error"></small></div>
+                        <small id="fieldTip" class="muted">Add an optional engraving for this watch.</small>
+                        <div class="button-row">
+                            <button type="submit" class="btn primary">Apply Customization</button>
+                            <button type="button" id="saveDesignBtn" class="btn secondary">Add to Database</button>
+                            <button type="button" id="cancelEditBtn" class="btn ghost" hidden>Cancel Edit</button>
+                            <button type="reset" class="btn ghost">Reset</button>
+                        </div>
+                    </form>
+                    <p class="summary" id="configSummary">Current design: Black, Standard 40mm, Sport Band</p>
+                    <p id="saveStatus" class="api-status" role="status">Choose an image, then click Add to Database.</p>
+                </div>
+            </div>
+        </section>
+        <section id="savedDesigns" class="section reveal">
+            <div class="panel">
+                <div class="saved-heading"><div><h2>Saved Watch Designs</h2><p class="muted">Load every watch design saved in the MySQL database. Select a saved image to view it larger.</p></div><button type="button" id="loadDesignsBtn" class="btn primary">Load Designs from Database</button></div>
+                <p id="designsStatus" class="api-status">Click the button to retrieve saved designs.</p>
+                <div id="designsGrid" class="saved-designs-grid"></div>
+            </div>
+        </section>
+        <section id="premium" class="section reveal">
+            <div class="panel">
+                <div class="premium-header">
+                    <svg id="premiumBadge" class="premium-badge" viewBox="0 0 64 64" aria-hidden="true">
+                        <polygon points="32,4 40,24 62,26 45,40 50,61 32,50 14,61 19,40 2,26 24,24"></polygon>
+                    </svg>
+                    <div>
+                        <h2>Premium Customization</h2>
+                        <p id="premiumState" class="muted">🔒 Locked. Upgrade to unlock these features.</p>
+                    </div>
+                </div>
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h3>Free features <span class="tag free-tag">FREE</span></h3>
+                        <ul>
+                            <li>4 basic colors</li>
+                            <li>3 product variants</li>
+                            <li>3 strap styles</li>
+                            <li>Engraving up to 20 characters</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h3>Premium features <span class="tag premium-tag">PREMIUM</span></h3>
+                        <ul>
+                            <li>4 premium colors</li>
+                            <li>Diamond bezel style</li>
+                            <li>Glow visual effect</li>
+                            <li>Advanced engraving (3 fonts, 40 characters)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="premiumControls" class="premium-controls locked">
+                    <div class="premium-group">
+                        <p class="group-title">Premium Colors <span class="tag premium-tag">PREMIUM</span>
+                            <span class="lock-icon">🔒</span></p>
+                        <div class="swatch-row">
+                            <button type="button" class="swatch" data-color="#d4af37" data-name="Gold" title="Gold" aria-label="Gold" style="background:#d4af37"></button>
+                            <button type="button" class="swatch" data-color="#b76e79" data-name="Rose Gold" title="Rose Gold" aria-label="Rose Gold" style="background:#b76e79"></button>
+                            <button type="button" class="swatch" data-color="#7b2cbf" data-name="Royal Purple" title="Royal Purple" aria-label="Royal Purple" style="background:#7b2cbf"></button>
+                            <button type="button" class="swatch" data-color="#4cc9f0" data-name="Ice Blue" title="Ice Blue" aria-label="Ice Blue" style="background:#4cc9f0"></button>
+                        </div>
+                    </div>
+                    <div class="premium-group">
+                        <p class="group-title">Special Style and Effects <span class="tag premium-tag">PREMIUM</span>
+                            <span class="lock-icon">🔒</span></p>
+                        <label class="switch-row"><input type="checkbox" id="diamondToggle"> Diamond bezel style</label>
+                        <label class="switch-row"><input type="checkbox" id="glowToggle"> Glow visual effect</label>
+                    </div>
+                    <div class="premium-group">
+                        <p class="group-title">Advanced Engraving <span class="tag premium-tag">PREMIUM</span>
+                            <span class="lock-icon">🔒</span></p>
+                        <label class="switch-row"><input type="checkbox" id="extendedToggle"> Extended engraving (40 characters)</label>
+                        <div class="font-row">
+                            <button type="button" class="font-btn active" data-font="classic">Classic</button>
+                            <button type="button" class="font-btn" data-font="elegant">Elegant</button>
+                            <button type="button" class="font-btn" data-font="digital">Digital</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="payment" class="section reveal">
+            <div class="grid-2">
+                <div class="panel plan-card">
+                    <h2>Chronos Premium</h2>
+                    <p class="plan-price">$9.99 <span>one-time payment</span></p>
+                    <ul class="feature-list">
+                        <li>✔ 4 premium colors</li>
+                        <li>✔ Diamond bezel style</li>
+                        <li>✔ Glow visual effect</li>
+                        <li>✔ Advanced engraving</li>
+                    </ul>
+                    <button type="button" id="upgradeBtn" class="btn primary">Upgrade Now</button>
+                </div>
+                <div class="panel">
+                    <h2>Payment Details</h2>
+                    <p class="warning">Demo only. Do not enter real card details. Nothing is saved or sent.</p>
+                    <form id="paymentForm" novalidate>
+                        <div class="form-group">
+                            <label for="cardName">Cardholder Name</label>
+                            <input type="text" id="cardName" placeholder="Enter Name" autocomplete="off">
+                            <small class="error"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="off">
+                            <small class="error"></small>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="off">
+                                <small class="error"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="password" id="cvv" placeholder="123" maxlength="3" inputmode="numeric" autocomplete="off">
+                                <small class="error"></small>
+                            </div>
+                        </div>
+                        <div class="button-row">
+                            <button type="submit" id="payBtn" class="btn primary">Pay $9.99 and Activate Premium</button>
+                            <button type="reset" class="btn ghost">Reset</button>
+                        </div>
+                    </form>
+                    <p id="paymentMessage" class="payment-message"></p>
+                    <div class="button-row"><button type="button" id="loadPaymentsBtn" class="btn secondary">Load Payment Records</button></div>
+                    <p id="paymentsStatus" class="api-status">Demo payment records will appear here.</p>
+                    <div id="paymentsList" class="payments-list"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="message" class="toast hidden" role="status" aria-live="polite"><span id="messageText"></span><button type="button" id="messageClose" class="toast-close" aria-label="Close message">×</button></div>
+    <div id="imageModal" class="modal hidden"><div class="modal-box image-modal-box"><button type="button" id="imageModalClose" class="toast-close modal-x" aria-label="Close image">×</button><img id="largeSavedImage" alt="Selected saved watch image"><h3 id="largeSavedTitle"></h3><p id="largeSavedDetails"></p></div></div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
