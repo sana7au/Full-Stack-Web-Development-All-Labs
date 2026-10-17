@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="#home" id="navName">Portfolio</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">Menu</button>
+      <nav id="navLinks">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <p class="muted">Hello, I am</p>
+          <h1 id="heroName">Welcome</h1>
+          <h2 id="heroTitle">Set up your portfolio</h2>
+          <div class="hero-buttons">
+            <a class="btn" href="#projects">View Projects</a>
+            <button class="btn btn-outline" id="editProfileBtn">Edit Profile</button>
+          </div>
+        </div>
+        <div class="avatar" id="avatar"></div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-head"><h2>About Me</h2></div>
+        <div class="about-grid">
+          <p id="aboutText" class="about-text"></p>
+          <ul id="contactList" class="contact-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Skills</h2>
+          <button class="btn btn-small add-btn" data-type="skills">Add Skill</button>
+        </div>
+        <div id="skillsList" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="education" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Education</h2>
+          <button class="btn btn-small add-btn" data-type="education">Add Education</button>
+        </div>
+        <div id="educationList" class="stack"></div>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Experience</h2>
+          <button class="btn btn-small add-btn" data-type="experience">Add Experience</button>
+        </div>
+        <div id="experienceList" class="stack"></div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Projects</h2>
+          <button class="btn btn-small add-btn" data-type="projects">Add Project</button>
+        </div>
+        <div id="projectsList" class="grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Personal Portfolio &copy; <span id="year"></span></p>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <h3 id="modalTitle"></h3>
+      <form id="modalForm">
+        <div id="formFields"></div>
+        <p class="form-error" id="formError"></p>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/libs/jquery/jquery.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
