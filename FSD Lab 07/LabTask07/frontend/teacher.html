@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teacher Dashboard</title><link rel="stylesheet" href="/style.css"><script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="/common.js"></script></head>
+<body><main class="wrap"><div id="nav"></div><header class="hero"><div class="eyebrow">Teacher portal / Academic overview</div><h1>Student Records & Marks</h1><p>Teacher API keys can access student records across the university. Requested rows are capped by the limit assigned to the key.</p></header>
+<section class="card"><h2>API key settings</h2><label for="apiKey">Your assigned API key</label><input id="apiKey" placeholder="Paste teacher API key"><label for="limit">Rows requested</label><input id="limit" type="number" min="1" max="100" value="10"><div class="actions"><button id="saveKey">Save key</button><button class="secondary" id="loadData">Load student records</button></div><div id="message" class="notice">Save a teacher key and load records.</div></section>
+<div class="stats"><div class="stat"><span>Role</span><strong id="role">—</strong></div><div class="stat"><span>Max rows</span><strong id="maxRows">—</strong></div><div class="stat"><span>Requests used</span><strong id="used">—</strong></div><div class="stat"><span>Requests remaining</span><strong id="remaining">—</strong></div></div>
+<section class="section card"><h2>Students and academic marks</h2><div id="records" class="muted">No records loaded.</div></section><div class="footer">Teacher access is enforced by Express middleware, not by hiding controls in the browser.</div></main>
+<script>
+$('#nav').html(nav());loadSavedKey('#apiKey');
+$('#saveKey').on('click',function(){if(!$('#apiKey').val().trim()){showMessage('#message','Enter an API key first.','fail');return;}saveKey($('#apiKey').val());showMessage('#message','API key saved in this browser.','ok');});
+$('#loadData').on('click',async function(){
+ const key=$('#apiKey').val().trim();if(!key){showMessage('#message','Enter your API key first.','fail');return;}saveKey(key);$('#loadData').prop('disabled',true);
+ try{
+  const me=await apiRequest('/api/me','GET',key);if(me.role!=='teacher'){showMessage('#message','This is not a teacher key.','fail');return;}
+  const result=await apiRequest('/api/teacher/students?limit='+encodeURIComponent($('#limit').val()),'GET',key);
+  $('#role').text(me.role);$('#maxRows').text(me.limits.maxRows);$('#used').text(me.limits.requestsUsed);$('#remaining').text(me.limits.requestsRemaining);
+  $('#records').html(result.data.map(s=>`<div class="card section"><div class="grid"><div><span class="muted">Student</span><h3>${escapeHtml(s.full_name)}</h3></div><div><span class="muted">Student ID</span><h3>${escapeHtml(s.code)}</h3></div><div><span class="muted">Department</span><b>${escapeHtml(s.department)}</b></div><div><span class="muted">Semester</span><b>${escapeHtml(s.semester)}</b></div></div><div class="table-wrap"><table><thead><tr><th>Subject</th><th>Marks</th><th>Total</th><th>Semester</th></tr></thead><tbody>${s.marks.map(m=>`<tr><td>${escapeHtml(m.subject_name)}</td><td>${escapeHtml(m.marks_obtained)}</td><td>${escapeHtml(m.total_marks)}</td><td>${escapeHtml(m.semester)}</td></tr>`).join('')||'<tr><td colspan="4">No marks.</td></tr>'}</tbody></table></div></div>`).join('')||'<div class="empty">No student records found.</div>');
+  showMessage('#message',`Loaded ${result.data.length} student record(s).`,'ok');
+ }catch(xhr){showMessage('#message',`HTTP ${xhr.status||'Network'}: ${xhr.responseJSON?.message||'Could not reach API.'}`,'fail');}
+ finally{$('#loadData').prop('disabled',false);}
+});
+</script></body></html>

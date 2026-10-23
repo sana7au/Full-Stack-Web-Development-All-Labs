@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>University API Access</title><link rel="stylesheet" href="/style.css"><script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="/common.js"></script></head>
+<body><main class="wrap"><div id="nav"></div>
+<header class="hero"><div class="eyebrow">Full Stack Development · AJAX + Express + MySQL</div><h1>University API<br>Access Management</h1><p>One secure API layer for academic records. API keys identify the user, and the server enforces permissions, row limits, and request allowances.</p><div class="actions"><a class="button" href="/student">Student dashboard</a><a class="button" href="/teacher">Teacher dashboard</a><a class="button" href="/admin">Admin panel</a></div></header>
+<div class="grid">
+<section class="card"><div class="eyebrow">01 / Settings</div><h2>Save your assigned API key</h2><p class="muted">Your key is saved in this browser only. The server checks it on every protected request.</p><label for="apiKey">API key</label><input id="apiKey" placeholder="Paste your assigned API key"><div class="actions"><button id="saveKey">Save API Key</button><button class="secondary" id="clearKey">Clear</button></div><div id="settingsMessage" class="notice">No key saved yet.</div></section>
+<section class="card"><div class="eyebrow">02 / How it works</div><h2>Request flow</h2><div class="stats"><div class="stat"><span>Frontend</span><strong>AJAX</strong></div><div class="stat"><span>Backend</span><strong>Express</strong></div><div class="stat"><span>Access</span><strong>API key</strong></div><div class="stat"><span>Storage</span><strong>MySQL</strong></div></div><p class="muted">The browser never connects directly to MySQL. The backend validates the key, checks the role and request limit, runs a parameterized query, and returns JSON.</p></section>
+</div>
+<section class="section card"><div class="eyebrow">03 / Demo keys</div><h2>Sample accounts for local testing</h2><p class="muted">These sample keys are inserted by database.sql. Save one to try the corresponding dashboard.</p><div class="table-wrap"><table><thead><tr><th>Role</th><th>Owner</th><th>Demo API key</th><th>Default limits</th><th>Action</th></tr></thead><tbody>
+<tr><td>Student</td><td>Ayesha Khan (S-1001)</td><td class="key">student-demo-key-1001</td><td>3 rows · 8 requests</td><td><button class="useKey" data-key="student-demo-key-1001">Use key</button></td></tr>
+<tr><td>Student</td><td>Hamza Ali (S-1002)</td><td class="key">student-demo-key-1002</td><td>3 rows · 8 requests</td><td><button class="useKey" data-key="student-demo-key-1002">Use key</button></td></tr>
+<tr><td>Teacher</td><td>Dr. Sara Malik (T-2001)</td><td class="key">teacher-demo-key-2001</td><td>10 rows · 30 requests</td><td><button class="useKey" data-key="teacher-demo-key-2001">Use key</button></td></tr>
+</tbody></table></div>
+<script>
+$('#nav').html(nav());
+$('#apiKey').val(savedKey());
+$('#saveKey').on('click',function(){if(!$('#apiKey').val().trim()){showMessage('#settingsMessage','Enter an API key first.','fail');return;}saveKey($('#apiKey').val());showMessage('#settingsMessage','API key saved in this browser.','ok');});
+$('#clearKey').on('click',function(){localStorage.removeItem('universityApiKey');$('#apiKey').val('');showMessage('#settingsMessage','Saved API key cleared.');});
+$('.useKey').on('click',function(){saveKey($(this).data('key'));$('#apiKey').val($(this).data('key'));showMessage('#settingsMessage','Demo key saved. Open the matching dashboard.','ok');});
+</script></body></html>

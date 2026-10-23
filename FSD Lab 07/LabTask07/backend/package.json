@@ -1,0 +1,16 @@
+{
+  "name": "university-api-access-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Beginner-friendly university API key management lab",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.22.3",
+    "mysql2": "^3.12.0"
+  }
+}

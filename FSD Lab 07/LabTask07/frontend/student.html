@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Student Dashboard</title><link rel="stylesheet" href="/style.css"><script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="/common.js"></script></head>
+<body><main class="wrap"><div id="nav"></div><header class="hero"><div class="eyebrow">Student portal / Private academic records</div><h1>My Academic Dashboard</h1><p>Only the student connected to your API key can be returned by these endpoints.</p></header>
+<section class="card"><h2>API key settings</h2><label for="apiKey">Your assigned API key</label><input id="apiKey" placeholder="Paste student API key"><div class="actions"><button id="saveKey">Save key</button><button class="secondary" id="loadData">Load my records</button></div><div id="message" class="notice">Save a key and load your records.</div></section>
+<div class="stats"><div class="stat"><span>Role</span><strong id="role">—</strong></div><div class="stat"><span>Max rows</span><strong id="maxRows">—</strong></div><div class="stat"><span>Requests used</span><strong id="used">—</strong></div><div class="stat"><span>Requests remaining</span><strong id="remaining">—</strong></div></div>
+<section class="section card"><h2>My profile</h2><div id="profile" class="muted">No data loaded.</div></section>
+<section class="section card"><h2>My academic marks</h2><div class="table-wrap"><table><thead><tr><th>Subject</th><th>Marks</th><th>Total</th><th>Semester</th></tr></thead><tbody id="marks"><tr><td colspan="4" class="empty">Load your records to see marks.</td></tr></tbody></table></div></section>
+<div class="footer">Security rule: the backend uses the student ID associated with your API key. It does not accept a student ID from the URL.</div></main>
+<script>
+$('#nav').html(nav());loadSavedKey('#apiKey');
+$('#saveKey').on('click',function(){if(!$('#apiKey').val().trim()){showMessage('#message','Enter an API key first.','fail');return;}saveKey($('#apiKey').val());showMessage('#message','API key saved in this browser.','ok');});
+$('#loadData').on('click',async function(){
+ const key=$('#apiKey').val().trim();if(!key){showMessage('#message','Enter your API key first.','fail');return;}saveKey(key);$('#loadData').prop('disabled',true);
+ try{
+  const me=await apiRequest('/api/me','GET',key);
+  if(me.role!=='student'){showMessage('#message','This is not a student key.','fail');return;}
+  const profile=await apiRequest('/api/student/me','GET',key);
+  const marks=await apiRequest('/api/student/marks','GET',key);
+  $('#role').text(me.role);$('#maxRows').text(me.limits.maxRows);$('#used').text(me.limits.requestsUsed);$('#remaining').text(me.limits.requestsRemaining);
+  const p=profile.data;
+  $('#profile').html(p?`<div class="grid"><div><span class="muted">Name</span><br><b>${escapeHtml(p.full_name)}</b></div><div><span class="muted">Student ID</span><br><b>${escapeHtml(p.code)}</b></div><div><span class="muted">Email</span><br><b>${escapeHtml(p.email)}</b></div><div><span class="muted">Department</span><br><b>${escapeHtml(p.department)}</b></div><div><span class="muted">Semester</span><br><b>${escapeHtml(p.semester)}</b></div></div>`:'No student profile found.');
+  $('#marks').html(marks.data.length?marks.data.map(m=>`<tr><td>${escapeHtml(m.subject_name)}</td><td>${escapeHtml(m.marks_obtained)}</td><td>${escapeHtml(m.total_marks)}</td><td>${escapeHtml(m.semester)}</td></tr>`).join(''):'<tr><td colspan="4" class="empty">No marks found.</td></tr>');
+  showMessage('#message','Records loaded successfully.','ok');
+ }catch(xhr){const msg=xhr.responseJSON?.message||'Could not reach API. Check server and database.';showMessage('#message',`HTTP ${xhr.status||'Network'}: ${msg}`,'fail');}
+ finally{$('#loadData').prop('disabled',false);}
+});
+</script></body></html>
