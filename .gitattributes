@@ -1,0 +1,12 @@
+# Handle line endings automatically for text files
+* text=auto
+
+# Explicitly declare text files you want to always correct to LF on commit
+*.js text
+*.html text
+*.css text
+*.json text
+
+# Denote files that are truly binary and should not be touched
+*.png binary
+*.jpg binary

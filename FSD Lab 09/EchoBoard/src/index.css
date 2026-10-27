@@ -1,0 +1,36 @@
+/* Global styles + theme colors (teal and vanilla).
+   Change a color here and the whole dashboard updates. */
+:root {
+  --teal-900: #0b4f4a;
+  --teal-700: #0f766e;
+  --teal-500: #2a9d8f;
+  --teal-200: #bfe3dd;
+  --vanilla-50: #fffaf0;
+  --vanilla-100: #fbf1d9;
+  --vanilla-300: #edddb0;
+  --ink: #1f2d2b;
+  --muted: #5c6f6c;
+  --warm: #e08a3c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--vanilla-100);
+  color: var(--ink);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.6;
+}

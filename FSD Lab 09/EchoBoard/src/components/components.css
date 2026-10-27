@@ -1,0 +1,214 @@
+/* Styles for the dashboard sections.
+   Every section uses the shared .card class. */
+.card {
+  background-color: var(--vanilla-50);
+  border: 1px solid var(--vanilla-300);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 4px 12px rgba(11, 79, 74, 0.08);
+  margin-bottom: 20px;
+}
+
+.two-column .card {
+  margin-bottom: 0;
+}
+
+.card-title {
+  color: var(--teal-900);
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.card-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Project intro */
+.intro-card {
+  border-left: 6px solid var(--teal-700);
+}
+
+.intro-card h2 {
+  color: var(--teal-900);
+  margin-bottom: 10px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background-color: var(--teal-200);
+  color: var(--teal-900);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+}
+
+/* Stat cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stats-grid .card {
+  margin-bottom: 0;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  color: var(--teal-700);
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+
+.stat-note {
+  font-size: 13px;
+  margin-bottom: 0;
+  color: var(--teal-500);
+}
+
+/* Heatmap */
+.heatmap-row {
+  display: grid;
+  grid-template-columns: 130px repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.heatmap-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.heatmap-head {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.heatmap-cell {
+  text-align: center;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.good {
+  background-color: var(--teal-500);
+  color: white;
+}
+
+.ok {
+  background-color: var(--vanilla-300);
+  color: var(--ink);
+}
+
+.bad {
+  background-color: var(--warm);
+  color: white;
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* Top issues */
+.issue-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.issue-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--vanilla-300);
+}
+
+.issue-item:last-child {
+  border-bottom: none;
+}
+
+.issue-meta {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.status {
+  background-color: var(--teal-700);
+  color: white;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* Poll */
+.poll-option {
+  margin-bottom: 14px;
+}
+
+.poll-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.poll-track {
+  background-color: var(--vanilla-300);
+  border-radius: 8px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.poll-fill {
+  background-color: var(--teal-700);
+  height: 100%;
+  border-radius: 8px;
+}
+
+@media (max-width: 800px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heatmap-row {
+    grid-template-columns: 90px repeat(4, 1fr);
+  }
+}
