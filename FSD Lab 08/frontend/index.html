@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>University Course Management System</title>
+  <script>
+    (function () {
+      var user = null;
+      try { user = JSON.parse(localStorage.getItem('user')); } catch (e) {}
+      var target = 'login.html';
+      if (localStorage.getItem('token') && user) {
+        target = user.role === 'admin' ? 'admin-dashboard.html' : 'student-dashboard.html';
+      }
+      window.location.replace(target);
+    })();
+  </script>
+</head>
+<body></body>
+</html>

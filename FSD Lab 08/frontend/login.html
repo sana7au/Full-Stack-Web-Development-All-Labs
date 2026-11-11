@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in | University Course Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>Log in</h1>
+      <p class="subtitle">University Course Management System</p>
+      <div id="alert" class="alert" role="alert"></div>
+      <form id="loginForm" novalidate>
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="username" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password" required>
+        <button type="submit" class="full">Log in</button>
+      </form>
+      <p class="switch">New student? <a href="register.html">Create an account</a></p>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

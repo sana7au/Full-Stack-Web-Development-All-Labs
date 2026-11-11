@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Dashboard | University Course Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Student Dashboard</h1>
+    <button id="logoutBtn" type="button">Log out</button>
+  </header>
+
+  <main class="container">
+    <div id="alert" class="alert" role="alert"></div>
+
+    <section class="panel">
+      <h2>My profile</h2>
+      <div class="profile">
+        <p><span class="label">Name</span><br><span class="value" id="studentName">-</span></p>
+        <p><span class="label">Email</span><br><span class="value" id="studentEmail">-</span></p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Available courses</h2>
+      <p id="emptyMsg" class="empty" style="display:none;">No courses are available yet.</p>
+      <div class="table-wrap">
+        <table id="courseTable">
+          <thead>
+            <tr><th>Code</th><th>Title</th><th>Description</th><th>Credit hours</th></tr>
+          </thead>
+          <tbody id="courseBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>

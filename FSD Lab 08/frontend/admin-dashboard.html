@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard | University Course Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Admin Dashboard <small id="adminName"></small></h1>
+    <button id="logoutBtn" type="button">Log out</button>
+  </header>
+
+  <main class="container">
+    <div id="alert" class="alert" role="alert"></div>
+
+    <section class="panel">
+      <div class="stats">
+        <div class="stat"><div class="number" id="totalCourses">0</div>Courses</div>
+        <div class="stat"><div class="number" id="totalStudents">0</div>Registered students</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="formTitle">Add course</h2>
+      <form id="courseForm" novalidate>
+        <input type="hidden" id="courseId">
+        <div class="form-grid">
+          <div>
+            <label for="courseCode">Course code</label>
+            <input type="text" id="courseCode" maxlength="20" required>
+          </div>
+          <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" maxlength="150" required>
+          </div>
+          <div>
+            <label for="creditHours">Credit hours</label>
+            <input type="number" id="creditHours" min="1" max="6" value="3" required>
+          </div>
+          <div class="wide">
+            <label for="description">Description</label>
+            <textarea id="description" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" id="saveBtn">Add course</button>
+          <button type="button" id="cancelBtn" class="secondary" style="display:none;">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>All courses</h2>
+      <p id="emptyMsg" class="empty" style="display:none;">No courses yet. Add the first one above.</p>
+      <div class="table-wrap">
+        <table id="courseTable">
+          <thead>
+            <tr><th>Code</th><th>Title</th><th>Description</th><th>Credits</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="courseBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
